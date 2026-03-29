@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AP City 3D — Drive. Explore. Discover My Work.</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div id="loading">
+  <div class="load-inner">
+    <div class="load-badge">ARYAN PARMAR</div>
+    <div class="load-title">AP CITY<span class="load-title-3d"> 3D</span></div>
+    <div class="load-sub">Drive. Explore. Discover My Work.</div>
+    <div class="load-road-wrap">
+      <div class="load-road">
+        <div class="load-center-line"></div>
+        <div class="load-car-wrap" id="load-car">
+          <div class="load-car-body">
+            <div class="load-car-roof"></div>
+            <div class="load-headlights"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="load-bar-wrap">
+      <div class="load-bar"><div class="load-progress" id="load-progress"></div></div>
+      <div class="load-pct" id="load-pct">0%</div>
+    </div>
+    <div class="load-text" id="load-text">INITIALIZING 3D ENGINE...</div>
+    <div class="load-steps">
+      <span class="load-step" id="ls0">▸ Three.js</span>
+      <span class="load-step" id="ls1">▸ City Mesh</span>
+      <span class="load-step" id="ls2">▸ Physics</span>
+      <span class="load-step" id="ls3">▸ Buildings</span>
+      <span class="load-step" id="ls4">▸ Lighting</span>
+      <span class="load-step" id="ls5">▸ Ready</span>
+    </div>
+  </div>
+  <div class="load-grid"></div>
+</div>
+
+<!-- HUD OVERLAY -->
+<div id="hud">
+  <!-- Top Left -->
+  <div class="hud-top-left">
+    <div class="hud-title-box">
+      <div class="hud-ap-badge">AP</div>
+      <div class="hud-name">ARYAN PARMAR</div>
+      <div class="hud-tagline">AUTOMATION · OPS · DIGITAL MARKETING</div>
+      <div class="hud-sub">Drive. Explore. Discover My Work.</div>
+    </div>
+  </div>
+
+  <!-- Top Right Buttons -->
+  <div class="hud-top-right">
+    <button class="hud-btn" id="music-btn" title="Toggle Music">♪ MUSIC: OFF</button>
+    <button class="hud-btn" id="weather-btn" title="Toggle Rain">☁ WEATHER</button>
+    <button class="hud-btn" id="time-btn" title="Toggle Day/Night">⬤ NIGHT</button>
+  </div>
+
+  <!-- Building Indicator (center) -->
+  <div id="building-indicator">
+    <div class="bi-glow"></div>
+    <div class="bi-label" id="bi-label">BUILDING</div>
+    <div class="bi-sublabel" id="bi-sublabel">About Me</div>
+    <div class="bi-enter">[ENTER] to explore</div>
+  </div>
+
+  <!-- Minimap -->
+  <div id="minimap">
+    <div class="minimap-label">AP CITY</div>
+    <canvas id="minimap-canvas" width="160" height="160"></canvas>
+    <div class="minimap-border"></div>
+  </div>
+
+  <!-- Progress -->
+  <div id="progress-bar">
+    <div class="prog-label">CITY EXPLORED</div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="prog-num" id="prog-num">0 / 8 BUILDINGS</div>
+  </div>
+
+  <!-- Controls hint -->
+  <div id="controls-hint">
+    <div class="ctrl-group">
+      <div class="ctrl-row"><div class="ctrl-key" id="key-up">↑</div></div>
+      <div class="ctrl-row">
+        <div class="ctrl-key" id="key-left">←</div>
+        <div class="ctrl-key" id="key-down">↓</div>
+        <div class="ctrl-key" id="key-right">→</div>
+      </div>
+    </div>
+    <div class="ctrl-sep"></div>
+    <div class="ctrl-key ctrl-enter" id="key-enter">ENTER</div>
+  </div>
+
+  <!-- Achievement -->
+  <div id="achievement-box">
+    <div class="ach-icon">🏆</div>
+    <div class="ach-inner">
+      <div class="ach-title">ACHIEVEMENT UNLOCKED</div>
+      <div class="ach-name" id="ach-name">City Explorer!</div>
+    </div>
+  </div>
+
+  <!-- Speed indicator -->
+  <div id="speed-hud">
+    <div class="speed-val" id="speed-val">0</div>
+    <div class="speed-unit">KM/H</div>
+    <div class="speed-arc">
+      <canvas id="speed-arc" width="80" height="80"></canvas>
+    </div>
+  </div>
+
+  <!-- Touch controls -->
+  <div id="touch-controls">
+    <div class="touch-grid">
+      <div></div>
+      <div class="touch-btn" id="t-up">↑</div>
+      <div></div>
+      <div class="touch-btn" id="t-left">←</div>
+      <div class="touch-btn" id="t-enter" style="font-size:9px;letter-spacing:0">GO</div>
+      <div class="touch-btn" id="t-right">→</div>
+      <div></div>
+      <div class="touch-btn" id="t-down">↓</div>
+      <div></div>
+    </div>
+  </div>
+  <button class="touch-enter-btn" id="touch-enter-btn">⬡ ENTER BUILDING</button>
+
+  <!-- Rain overlay -->
+  <div id="weather"></div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-overlay">
+  <div class="modal-box" id="modal-box">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- THREE.JS CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<script src="buildings.js"></script>
+<script src="city.js"></script>
+<script src="car.js"></script>
+<script src="ui.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
